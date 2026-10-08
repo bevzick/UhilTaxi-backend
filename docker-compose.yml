@@ -15,6 +15,7 @@ services:
 
     volumes:
       - uhiltaxi_mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
 
     command:
       - --character-set-server=utf8mb4
