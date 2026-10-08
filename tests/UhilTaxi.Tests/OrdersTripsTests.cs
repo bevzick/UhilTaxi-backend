@@ -93,14 +93,14 @@ public sealed class OrdersTripsTests
     [Fact]
     public void Percentage_discount_respects_cap_and_minimum()
     {
-        var promo = new Promocode { DiscountType = DiscountType.Percentage, DiscountValue = 10, MaxDiscountAmount = 15, MinOrderAmount = 100 };
+        var promo = new Promocode { DiscountType = "percentage", DiscountValue = 10, MaxDiscountAmount = 15, MinOrderAmount = 100 };
         Assert.Equal(15m, PromoRules.Discount(promo, 200));
         Assert.Equal(0m, PromoRules.Discount(promo, 99));
     }
 
     [Fact]
     public void Fixed_discount_never_makes_fare_negative() =>
-        Assert.Equal(10m, PromoRules.Discount(new() { DiscountType = DiscountType.Fixed, DiscountValue = 100 }, 10));
+        Assert.Equal(10m, PromoRules.Discount(new() { DiscountType = "fixed", DiscountValue = 100 }, 10));
 
     [Theory]
     [InlineData(0, 20)]
