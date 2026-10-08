@@ -1,0 +1,6 @@
+@UhilTaxi_backend_HostAddress = http://localhost:5069
+
+GET {{UhilTaxi_backend_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
