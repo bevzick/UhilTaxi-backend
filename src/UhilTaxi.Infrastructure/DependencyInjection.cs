@@ -16,6 +16,7 @@ public static class DependencyInjection
         var connection = config.GetConnectionString("Default")
             ?? throw new InvalidOperationException("Set ConnectionStrings__Default.");
         services.AddDbContext<UhilTaxiDbContext>(o => o.UseMySql(connection, new MySqlServerVersion(new Version(8, 0, 36))));
+        services.AddScoped<UhilTaxi.Infrastructure.Operations.OperationsService>();
         services.AddScoped<IAuthRepository, AuthRepository>();
         services.AddScoped<IDriverRepository, DriverRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();

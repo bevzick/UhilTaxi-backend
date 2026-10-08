@@ -15,12 +15,12 @@ public sealed class PromocodeService(IPromocodeRepository repository)
             throw Invalid("INVALID_PROMOCODE", "Code must contain 1-20 Latin letters, numbers, '-' or '_'.");
         return value;
     }
-    private static DiscountType ParseType(string? type) => type?.Trim().ToLowerInvariant() switch
-    {
-        "fixed" => DiscountType.Fixed,
-        "percentage" => DiscountType.Percentage,
-        _ => throw Invalid("INVALID_DISCOUNT_TYPE", "Discount type must be fixed or percentage.")
-    };
+    private static string ParseType(string? type) => type?.Trim().ToLowerInvariant() switch
+{
+    "fixed" => "fixed",
+    "percentage" => "percentage",
+    _ => throw Invalid("INVALID_DISCOUNT_TYPE", "Discount type must be fixed or percentage.")
+};
     private static decimal Amount(decimal value, string name, bool strictlyPositive = false)
     {
         if ((strictlyPositive ? value <= 0 : value < 0) || value > 99999999.99m || decimal.Round(value,2) != value)
@@ -31,7 +31,7 @@ public sealed class PromocodeService(IPromocodeRepository repository)
     {
         if (p.ExpiryDate == default) throw Invalid("INVALID_EXPIRY_DATE", "Expiry date is required.");
         if (p.MaxUses < 1) throw Invalid("INVALID_MAX_USES", "MaxUses must be at least 1.");
-        if (p.DiscountType == DiscountType.Fixed) Amount(p.DiscountValue, "DiscountValue", true);
+        if (p.DiscountType == "fixed") Amount(p.DiscountValue, "DiscountValue", true);
         else if (p.DiscountValue <= 0 || p.DiscountValue > 100 || decimal.Round(p.DiscountValue, 2) != p.DiscountValue)
             throw Invalid("INVALID_PERCENT", "Percentage must be greater than 0 and at most 100.");
         if (p.MinOrderAmount.HasValue) Amount(p.MinOrderAmount.Value, "MinOrderAmount");

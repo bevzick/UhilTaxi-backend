@@ -4,6 +4,7 @@ namespace UhilTaxi.Infrastructure.Persistence;
 public sealed class UhilTaxiDbContext(DbContextOptions<UhilTaxiDbContext> options) : DbContext(options)
 {
     public DbSet<Tariff> Tariffs => Set<Tariff>();
+    public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
     public DbSet<Promocode> Promocodes => Set<Promocode>();
     public DbSet<User> Users => Set<User>();
     public DbSet<ClientProfile> ClientProfiles => Set<ClientProfile>();
@@ -13,6 +14,13 @@ public sealed class UhilTaxiDbContext(DbContextOptions<UhilTaxiDbContext> option
     public DbSet<OrderStatusHistory> OrderStatusHistory => Set<OrderStatusHistory>();
     public DbSet<Trip> Trips => Set<Trip>();
     public DbSet<Shift> Shifts => Set<Shift>();
+    public DbSet<Car> Cars => Set<Car>();
+    public DbSet<CarModel> CarModels => Set<CarModel>();
+    public DbSet<Maintenance> MaintenanceRecords => Set<Maintenance>();
+    public DbSet<EnergyLog> EnergyLogs => Set<EnergyLog>();
+    public DbSet<Payment> Payments => Set<Payment>();
+    public DbSet<Review> Reviews => Set<Review>();
+    public DbSet<Violation> Violations => Set<Violation>();
     public DbSet<PromocodeUsage> PromocodeUsages => Set<PromocodeUsage>();
     protected override void OnModelCreating(ModelBuilder builder)
     {
