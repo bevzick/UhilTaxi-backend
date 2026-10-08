@@ -23,6 +23,7 @@ public static class DotEnvConfiguration
                 "JWT_AUDIENCE" => "Jwt:Audience",
                 "JWT_ACCESS_MINUTES" => "Jwt:AccessMinutes",
                 "JWT_REFRESH_DAYS" => "Jwt:RefreshDays",
+                "CORS_ALLOWED_ORIGINS" => "Cors:AllowedOrigins",
                 "ADMIN_SEED_ENABLED" => "AdminSeed:Enabled",
                 "ADMIN_SEED_PHONE" => "AdminSeed:Phone",
                 "ADMIN_SEED_PASSWORD" => "AdminSeed:Password",
