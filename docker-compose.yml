@@ -1,0 +1,65 @@
+services:
+  api:
+    container_name: uhiltaxi-api
+    restart: uless-stopped
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: final
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__DefaultConnection: >-
+        Server=mysql;
+        Port=3306;
+        Database=${MYSQL_DATABASE:-uhiltaxi};
+        User=${MYSQL_USER:-uhiltaxi};
+        Password=${MYSQL_PASSWORD:-uhiltaxi_password};
+        AllowPublicKeyRetrieval=True;
+        SslMode=None;
+      Jwt__Issuer: ${JWT_ISSUER:-UhilTaxi.Api}
+      Jwt__Audience: ${JWT_AUDIENCE:-UhilTaxi.Client}
+      Jwt__Key: ${JWT_Key:-development_secret_key}
+    ports:
+      - "${API_PORT:-8080}:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - uhiltaxi-network
+
+  mysql:
+    image: mysql:8.4
+    container_name: uhiltaxi-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-uhiltaxi}
+      MYSQL_USER: ${MYSQL_USER:-uhiltaxi}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-uhiltaxi_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent"
+      ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    networks:
+      - uhiltaxi-network
+
+
+volumes:
+  mysql_data:
+
+networks:
+  uhiltaxi-network:
+    driver: bridge
