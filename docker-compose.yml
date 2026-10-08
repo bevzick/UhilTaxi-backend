@@ -1,0 +1,77 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: uhiltaxi-mysql
+    restart: unless-stopped
+
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-uhiltaxi}
+      MYSQL_USER: ${MYSQL_USER:-uhiltaxi}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-uhiltaxi_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root_password}
+
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+
+    volumes:
+      - uhiltaxi_mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - mysqladmin ping -h 127.0.0.1 -uroot -p$$MYSQL_ROOT_PASSWORD --silent
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+    networks:
+      - uhiltaxi-network
+
+  api:
+    container_name: uhiltaxi-api
+    restart: unless-stopped
+
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
+      ASPNETCORE_URLS: http://+:8080
+
+      ConnectionStrings__Default: "Server=mysql;Port=3306;Database=${MYSQL_DATABASE:-uhiltaxi};User=${MYSQL_USER:-uhiltaxi};Password=${MYSQL_PASSWORD:-uhiltaxi_password};AllowPublicKeyRetrieval=True;SslMode=None;"
+
+      Jwt__Issuer: ${JWT_ISSUER:-UhilTaxi.Api}
+      Jwt__Audience: ${JWT_AUDIENCE:-UhilTaxi.Client}
+      Jwt__AccessMinutes: ${JWT_ACCESS_MINUTES:-15}
+      Jwt__RefreshDays: ${JWT_REFRESH_DAYS:-14}
+      Jwt__Key: ${JWT_KEY:?Set JWT_KEY in .env}
+      AdminSeed__Enabled: ${ADMIN_SEED_ENABLED:-false}
+      AdminSeed__Phone: ${ADMIN_SEED_PHONE:-}
+      AdminSeed__Password: ${ADMIN_SEED_PASSWORD:-}
+      AdminSeed__FirstName: ${ADMIN_SEED_FIRST_NAME:-}
+      AdminSeed__LastName: ${ADMIN_SEED_LAST_NAME:-}
+      AdminSeed__Email: ${ADMIN_SEED_EMAIL:-}
+
+    ports:
+      - "${API_PORT:-8080}:8080"
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    networks:
+      - uhiltaxi-network
+
+volumes:
+  uhiltaxi_mysql_data:
+
+networks:
+  uhiltaxi-network:
+    driver: bridge
