@@ -16,6 +16,7 @@ using UhilTaxi.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddLocalDotEnv(builder.Environment.ContentRootPath);
+builder.Services.AddFrontendCors(builder.Configuration);
 
 builder.Services.AddControllers().AddJsonOptions(o =>
 {
@@ -83,6 +84,8 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 var app = builder.Build();
 await UhilTaxi.Api.Seeding.DevelopmentAdminSeeder.SeedAsync(app);
 app.UseExceptionHandler();
+app.UseRouting();
+app.UseCors(FrontendCorsExtensions.PolicyName);
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

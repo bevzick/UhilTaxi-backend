@@ -156,6 +156,8 @@ UHILTAXI_TEST_URL=http://localhost:5069 python3 tests/orders_trips_integration.p
 
 ## Основні API
 
+Налаштування CORS, CSP і базової адреси запитів описані в [інструкції підключення фронтенду](docs/frontend-connection.md).
+
 JSON використовує `snake_case`. Захищені маршрути потребують заголовка `Authorization: Bearer <access_token>` та активного користувача. Клієнти й водії мають доступ до власних ресурсів; адміністратор — до адміністративних маршрутів. Помилки повертаються у форматі ProblemDetails.
 
 | Група | Префікс |
