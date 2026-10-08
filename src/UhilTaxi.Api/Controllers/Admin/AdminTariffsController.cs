@@ -4,7 +4,7 @@ using UhilTaxi.Application.DTOs.Requests;
 using UhilTaxi.Application.DTOs.Responses;
 using UhilTaxi.Application.Services;
 namespace UhilTaxi.Api.Controllers.Admin;
-[ApiController, Route("api/v1/admin/tariffs"), Authorize(Roles = "admin")]
+[ApiController, Route("api/v1/admin/tariffs"), Authorize(Policy = "ActiveAdmin")]
 public sealed class AdminTariffsController(TariffService tariffs) : ControllerBase
 {
     [HttpGet]

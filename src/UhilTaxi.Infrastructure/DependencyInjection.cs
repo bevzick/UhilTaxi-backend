@@ -16,6 +16,8 @@ public static class DependencyInjection
         services.AddDbContext<UhilTaxiDbContext>(o => o.UseMySql(connection, new MySqlServerVersion(new Version(8, 0, 36))));
         services.AddScoped<IAuthRepository, AuthRepository>();
         services.AddScoped<IDriverRepository, DriverRepository>();
+        services.AddScoped<IClientRepository, ClientRepository>();
+        services.AddScoped<IPromocodeRepository, PromocodeRepository>();
         services.AddScoped<ITariffRepository, TariffRepository>();
         services.AddScoped<ITokenService, JwtTokenService>();
         services.AddSingleton<IPasswordService, PasswordService>();
