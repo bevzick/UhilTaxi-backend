@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TaxiPark.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cab7b231268adb63fa7325b53afac957b317bd03")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b490f5c0fe00fc90a8088d2fb759dac789c7bede")]
 [assembly: System.Reflection.AssemblyProductAttribute("TaxiPark.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TaxiPark.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
