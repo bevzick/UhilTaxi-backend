@@ -1,8 +1,0 @@
-<Solution>
-  <Folder Name="/src/">
-    <Project Path="src/TaxiPark.Api/TaxiPark.Api.csproj" />
-    <Project Path="src/TaxiPark.Application/TaxiPark.Application.csproj" />
-    <Project Path="src/TaxiPark.Domain/TaxiPark.Domain.csproj" />
-    <Project Path="src/TaxiPark.Infrastructure/TaxiPark.Infrastructure.csproj" />
-  </Folder>
-</Solution>
