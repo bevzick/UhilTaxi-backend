@@ -70,10 +70,12 @@ builder.Services.AddAuthorization(options =>
 });
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<TariffService>();
+builder.Services.AddScoped<DriverService>();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
+await UhilTaxi.Api.Seeding.DevelopmentAdminSeeder.SeedAsync(app);
 app.UseExceptionHandler();
 if (app.Environment.IsDevelopment())
 {
