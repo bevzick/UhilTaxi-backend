@@ -23,6 +23,12 @@ public static class DotEnvConfiguration
                 "JWT_AUDIENCE" => "Jwt:Audience",
                 "JWT_ACCESS_MINUTES" => "Jwt:AccessMinutes",
                 "JWT_REFRESH_DAYS" => "Jwt:RefreshDays",
+                "ADMIN_SEED_ENABLED" => "AdminSeed:Enabled",
+                "ADMIN_SEED_PHONE" => "AdminSeed:Phone",
+                "ADMIN_SEED_PASSWORD" => "AdminSeed:Password",
+                "ADMIN_SEED_FIRST_NAME" => "AdminSeed:FirstName",
+                "ADMIN_SEED_LAST_NAME" => "AdminSeed:LastName",
+                "ADMIN_SEED_EMAIL" => "AdminSeed:Email",
                 _ => name.Replace("__", ":")
             };
             if (Environment.GetEnvironmentVariable(key.Replace(":", "__")) is null)

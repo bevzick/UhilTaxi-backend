@@ -52,6 +52,12 @@ services:
       Jwt__AccessMinutes: ${JWT_ACCESS_MINUTES:-15}
       Jwt__RefreshDays: ${JWT_REFRESH_DAYS:-14}
       Jwt__Key: ${JWT_KEY:?Set JWT_KEY in .env}
+      AdminSeed__Enabled: ${ADMIN_SEED_ENABLED:-false}
+      AdminSeed__Phone: ${ADMIN_SEED_PHONE:-}
+      AdminSeed__Password: ${ADMIN_SEED_PASSWORD:-}
+      AdminSeed__FirstName: ${ADMIN_SEED_FIRST_NAME:-}
+      AdminSeed__LastName: ${ADMIN_SEED_LAST_NAME:-}
+      AdminSeed__Email: ${ADMIN_SEED_EMAIL:-}
 
     ports:
       - "${API_PORT:-8080}:8080"
