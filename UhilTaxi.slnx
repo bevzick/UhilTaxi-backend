@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/UhilTaxi.Api/UhilTaxi.Api.csproj" />
+    <Project Path="src/UhilTaxi.Application/UhilTaxi.Application.csproj" />
+    <Project Path="src/UhilTaxi.Domain/UhilTaxi.Domain.csproj" />
+    <Project Path="src/UhilTaxi.Infrastructure/UhilTaxi.Infrastructure.csproj" />
+  </Folder>
+</Solution>

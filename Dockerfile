@@ -1,31 +1,14 @@
 # syntax=docker/dockerfile:1
 
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS restore
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 
 WORKDIR /src
 
-COPY TaxiPark.sln ./
-
-COPY src/TaxiPark.Api/TaxiPark.Api.csproj \
-     src/TaxiPark.Api/
-
-COPY src/TaxiPark.Application/TaxiPark.Application.csproj \
-     src/TaxiPark.Application/
-
-COPY src/TaxiPark.Domain/TaxiPark.Domain.csproj \
-     src/TaxiPark.Domain/
-
-COPY src/TaxiPark.Infrastructure/TaxiPark.Infrastructure.csproj \
-     src/TaxiPark.Infrastructure/
-
-RUN dotnet restore TaxiPark.sln
-
-
-FROM restore AS build
-
 COPY . .
 
-RUN dotnet publish src/TaxiPark.Api/TaxiPark.Api.csproj \
+RUN dotnet restore src/UhilTaxi.Api/UhilTaxi.Api.csproj
+
+RUN dotnet publish src/UhilTaxi.Api/UhilTaxi.Api.csproj \
     -c Release \
     -o /app/publish \
     --no-restore \
@@ -40,4 +23,4 @@ COPY --from=build /app/publish .
 
 EXPOSE 8080
 
-ENTRYPOINT ["dotnet", "TaxiPark.Api.dll"]
+ENTRYPOINT ["dotnet", "UhilTaxi.Api.dll"]

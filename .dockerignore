@@ -1,15 +1,16 @@
 **/bin/
 **/obj/
-**/.vs/
-**/.vscode/
-**/.idea/
-**/TestResults/
-**/*.user
-**/*.suo
 
 .git/
 .gitignore
 
+.vs/
+.vscode/
+.idea/
+
 .env
 
-README.md
+**/*.user
+**/*.suo
+
+TestResults/

@@ -2,38 +2,37 @@ COMPOSE := docker compose
 
 .DEFAULT_GOAL := help
 
-.PHONY: help up start stop down restart build rebuild logs logs-api logs-db ps \
-        api-shell db-shell clean reset config
+.PHONY: help up down stop start restart build rebuild logs logs-api logs-db ps db-shell api-shell config reset
 
 help:
-	@echo "TaxiPark Docker commands:"
-	@echo "  make up         - build and start API + MySQL"
-	@echo "  make start      - start existing containers"
-	@echo "  make stop       - stop containers"
-	@echo "  make down       - stop and remove containers"
-	@echo "  make restart    - restart services"
-	@echo "  make build      - build images"
-	@echo "  make rebuild    - rebuild images without cache"
-	@echo "  make logs       - follow all logs"
-	@echo "  make logs-api   - follow API logs"
-	@echo "  make logs-db    - follow MySQL logs"
-	@echo "  make ps         - show service status"
-	@echo "  make api-shell  - open shell inside API container"
-	@echo "  make db-shell   - open MySQL client"
-	@echo "  make config     - render resolved compose config"
-	@echo "  make reset      - REMOVE containers AND MySQL volume"
+	@echo "UhilTaxi:"
+	@echo "  make up        - build + start API and MySQL"
+	@echo "  make down      - stop and remove containers"
+	@echo "  make stop      - stop containers"
+	@echo "  make start     - start containers"
+	@echo "  make restart   - restart containers"
+	@echo "  make build     - build API image"
+	@echo "  make rebuild   - rebuild without cache"
+	@echo "  make logs      - all logs"
+	@echo "  make logs-api  - API logs"
+	@echo "  make logs-db   - MySQL logs"
+	@echo "  make ps        - container status"
+	@echo "  make db-shell  - MySQL shell"
+	@echo "  make api-shell - API shell"
+	@echo "  make config    - validate docker-compose"
+	@echo "  make reset     - remove containers and DB volume"
 
 up:
 	$(COMPOSE) up -d --build
 
-start:
-	$(COMPOSE) start
+down:
+	$(COMPOSE) down --remove-orphans
 
 stop:
 	$(COMPOSE) stop
 
-down:
-	$(COMPOSE) down --remove-orphans
+start:
+	$(COMPOSE) start
 
 restart:
 	$(COMPOSE) restart
@@ -60,14 +59,10 @@ api-shell:
 	$(COMPOSE) exec api sh
 
 db-shell:
-	$(COMPOSE) exec mysql sh -c \
-		'mysql -u"$$MYSQL_USER" -p"$$MYSQL_PASSWORD" "$$MYSQL_DATABASE"'
+	$(COMPOSE) exec mysql sh -c 'mysql -u"$$MYSQL_USER" -p"$$MYSQL_PASSWORD" "$$MYSQL_DATABASE"'
 
 config:
 	$(COMPOSE) config
-
-clean:
-	$(COMPOSE) down --remove-orphans
 
 reset:
 	$(COMPOSE) down -v --remove-orphans
