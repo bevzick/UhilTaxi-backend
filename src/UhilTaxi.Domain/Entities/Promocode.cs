@@ -1,3 +1,4 @@
+using UhilTaxi.Domain.Enums;
 namespace UhilTaxi.Domain.Entities;
 
 public sealed class Promocode

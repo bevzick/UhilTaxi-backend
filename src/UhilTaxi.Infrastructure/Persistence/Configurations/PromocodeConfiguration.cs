@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using UhilTaxi.Domain.Entities;
+using UhilTaxi.Domain.Enums;
 
 namespace UhilTaxi.Infrastructure.Persistence.Configurations;
 
