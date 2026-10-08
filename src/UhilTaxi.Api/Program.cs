@@ -73,6 +73,8 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<TariffService>();
 builder.Services.AddScoped<DriverService>();
+builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<TripService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<PromocodeService>();
 builder.Services.AddProblemDetails();

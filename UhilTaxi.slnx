@@ -5,4 +5,7 @@
     <Project Path="src/UhilTaxi.Domain/UhilTaxi.Domain.csproj" />
     <Project Path="src/UhilTaxi.Infrastructure/UhilTaxi.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/UhilTaxi.Tests/UhilTaxi.Tests.csproj" />
+  </Folder>
 </Solution>
