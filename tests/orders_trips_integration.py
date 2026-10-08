@@ -11,6 +11,7 @@ import subprocess
 import urllib.error
 import urllib.request
 import uuid
+from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 
 BASE = os.environ.get("UHILTAXI_TEST_URL", "http://127.0.0.1:8080")
@@ -112,7 +113,18 @@ def main():
     driver3_id, driver3 = account("driver3", "driver")
     admin_id, admin = account("admin", "admin")
     tariff = int(sql(f"INSERT INTO tariffs(name,service_class,base_fare,rate_per_km,rate_per_min) VALUES('{TAG}','standard',50,10,2); SELECT LAST_INSERT_ID();"))
-    sql(f"INSERT INTO promocodes(code,discount_value,discount_type,expiry_date,max_uses) VALUES('{PROMO}',10,'percentage',DATE_ADD(UTC_DATE(),INTERVAL 1 DAY),1);")
+    promo = api("POST", "/api/v1/admin/promocodes", admin, {
+        "code": PROMO.lower(), "discount_value": 10, "discount_type": "percentage",
+        "expiry_date": (datetime.now(timezone.utc).date() + timedelta(days=1)).isoformat(),
+        "max_uses": 1, "min_order_amount": None, "max_discount_amount": None,
+    }, expected=201)
+    check(promo["code"] == PROMO and promo["discount_type"] == "percentage", "Promocode must normalize code and persist the enum as a lowercase string")
+    check(promo["is_active"] and promo["created_at"].startswith(str(datetime.now(timezone.utc).year)), "New promocodes must be active with initialized timestamps")
+    promo_id = promo["id"]
+    api("GET", f"/api/v1/admin/promocodes/{promo_id}", admin)
+    updated = api("PATCH", f"/api/v1/admin/promocodes/{promo_id}", admin, {"discount_type": "fixed", "discount_value": 15})
+    check(updated["discount_type"] == "fixed", "Promocode update must accept the fixed enum value")
+    api("PATCH", f"/api/v1/admin/promocodes/{promo_id}", admin, {"discount_type": "percentage", "discount_value": 10})
     shifts = {}
     for driver_id, category in [(driver1_id, "standard"), (driver2_id, "standard"), (driver3_id, "economy")]:
         model = int(sql(f"INSERT INTO car_models(brand,model_name,category,fuel_type) VALUES('OT{driver_id}','{TAG}','{category}','petrol'); SELECT LAST_INSERT_ID();"))

@@ -12,7 +12,9 @@ public sealed class PromocodeConfiguration : IEntityTypeConfiguration<Promocode>
         StorageMapping.Configure(b, "promocodes");
         b.HasKey(x => x.Id);
         b.Property(x => x.Code).HasMaxLength(20).IsRequired();
-        b.Property(x => x.DiscountType).HasMaxLength(20).IsRequired();
+        b.Property(x => x.DiscountType)
+            .HasConversion(v => v.ToString().ToLowerInvariant(), v => Enum.Parse<DiscountType>(v, true))
+            .HasMaxLength(20).IsRequired();
         b.Property(x => x.DiscountValue).HasPrecision(10, 2);
         b.Property(x => x.MinOrderAmount).HasPrecision(10, 2);
         b.Property(x => x.MaxDiscountAmount).HasPrecision(10, 2);
