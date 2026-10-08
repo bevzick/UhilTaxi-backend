@@ -11,9 +11,11 @@ using UhilTaxi.Application.Services;
 using UhilTaxi.Application.Common;
 using UhilTaxi.Api.Authorization;
 using UhilTaxi.Api.ExceptionHandling;
+using UhilTaxi.Api.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddLocalDotEnv(builder.Environment.ContentRootPath);
 
 builder.Services.AddControllers().AddJsonOptions(o =>
 {
@@ -67,6 +69,7 @@ builder.Services.AddAuthorization(options =>
         .RequireAuthenticatedUser().AddRequirements(new ActiveUserRequirement()).Build();
 });
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<TariffService>();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
@@ -77,7 +80,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment()) app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

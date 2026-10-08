@@ -49,7 +49,9 @@ services:
 
       Jwt__Issuer: ${JWT_ISSUER:-UhilTaxi.Api}
       Jwt__Audience: ${JWT_AUDIENCE:-UhilTaxi.Client}
-      Jwt__Key: ${JWT_KEY:-change_this_development_secret_key_32_chars_minimum}
+      Jwt__AccessMinutes: ${JWT_ACCESS_MINUTES:-15}
+      Jwt__RefreshDays: ${JWT_REFRESH_DAYS:-14}
+      Jwt__Key: ${JWT_KEY:?Set JWT_KEY in .env}
 
     ports:
       - "${API_PORT:-8080}:8080"

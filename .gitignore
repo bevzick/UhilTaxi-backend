@@ -57,6 +57,22 @@ TestResult.xml
 nunit-*.xml
 
 # Secrets / OS
-.env
 appsettings.Local.json
 *.user
+
+# No local DB or credentials
+*.db
+*.db-shm
+*.db-wal
+.env.*.local
+
+**/bin/
+**/obj/
+
+.env
+.env.*
+!.env.example
+
+.vs/
+.idea/
+.vscode/
